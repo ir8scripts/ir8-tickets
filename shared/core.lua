@@ -82,7 +82,7 @@ function IR8.Bridge.GetPlayerSourceIfOnlineByIdentifier (identifier)
         local xPlayers = IR8.Bridge.Core.GetPlayers()
 
         for i=1, #xPlayers, 1 do
-            local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
+            local xPlayer = IR8.Bridge.Core.GetPlayerFromId(xPlayers[i])
 
             if xPlayer.getIdentifier() == identifier then
                 src = xPlayer.source
@@ -92,8 +92,6 @@ function IR8.Bridge.GetPlayerSourceIfOnlineByIdentifier (identifier)
     -- Find player by citizen id (only returns if online)
     elseif IR8.Config.Framework == 'qb' and IR8.Bridge.Core then
         local Player = IR8.Bridge.Core.Functions.GetPlayerByCitizenId(identifier)
-        print(identifier)
-        print(json.encode(Player))
         if Player ~= nil then
             src = Player.PlayerData.source
         end

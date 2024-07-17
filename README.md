@@ -17,6 +17,10 @@ Features:
 
 If you need any support, feel free to reach out to us via our Discord: https://discord.gg/wzEYNCN7pH
 
+### Version 1.0.1
+
+- Fixed issue with getting player source with ESX
+
 ### Dependencies
 
 - Supports both ESX and QBCore
