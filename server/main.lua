@@ -1,6 +1,8 @@
 -------------------------------------------------
 -- 
 -- DISCORD WEBHOOK CONFIGURATION
+-- Thanks to complex from Project Sloth for the 
+-- suggestion to move this config to here.
 -- 
 -------------------------------------------------
 
