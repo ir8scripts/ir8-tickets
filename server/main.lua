@@ -60,6 +60,7 @@ end)
 lib.callback.register(IR8.Config.ServerCallbackPrefix .. "Ticket_UpdateStatus", function (src, data)
     IR8.Utilities.DebugPrint('[EVENT] ' .. IR8.Bridge.GetPlayerIdentifier(src) .. ' updated ticket status for id: ' .. data.id .. ' to ' .. data.status)
 
+    local name = IR8.Bridge.GetPlayerName(src)
     local res = IR8.Database.UpdateTicketStatus(data.id, data.status)
 
     if res.success then
@@ -67,6 +68,13 @@ lib.callback.register(IR8.Config.ServerCallbackPrefix .. "Ticket_UpdateStatus", 
         if ticketData then
             SendNotificationIfOnline(ticketData.identifier, "Ticket Status", "Your ticket status has been updated to " .. data.status .. ".")
         end
+
+        -- Send discord webhook
+        IR8.Utilities.DebugPrint("Sending discord notification for created ticket.")
+        IR8.Utilities.SendDiscordEmbed({
+            title = "Ticket Status Update",
+            message = "A ticket status was updated to " .. data.status .. " by " .. name .. " for Ticket #" .. data.id .. " - " .. ticketData.title
+        })
     end
 
     -- Get ticket data from database
@@ -84,6 +92,13 @@ lib.callback.register(IR8.Config.ServerCallbackPrefix .. "Ticket_CreateReply", f
         if ticketData then
             SendNotificationIfOnline(ticketData.identifier, "Ticket Reply", "You have received a reply on a ticket you created.")
         end
+
+        -- Send discord webhook
+        IR8.Utilities.DebugPrint("Sending discord notification for created ticket.")
+        IR8.Utilities.SendDiscordEmbed({
+            title = "New Ticket Reply",
+            message = "A ticket was replied to by " .. name .. " for Ticket #" .. data.ticket_id .. " - " .. ticketData.title
+        })
     end
 
     return res
@@ -101,7 +116,7 @@ lib.callback.register(IR8.Config.ServerCallbackPrefix .. "Ticket_Create", functi
         IR8.Utilities.DebugPrint("Sending discord notification for created ticket.")
         IR8.Utilities.SendDiscordEmbed({
             title = "Ticket Created",
-            message = "A ticket was created with title: " .. data.title
+            message = "A ticket was created with title: " .. data.title .. " by " .. name
         })
     end
 
