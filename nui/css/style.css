@@ -1,0 +1,210 @@
+/**
+ * DOCUMENT SETUP
+ **/
+ html,
+ body {
+   width: 100%;
+   height: 100%;
+   margin: 0;
+   padding: 0;
+   overflow-x: hidden;
+   color: #fff;
+   font-family: "Roboto Condensed", sans-serif;
+   font-size: 16px;
+ }
+ 
+ * {
+   box-sizing: border-box;
+   -webkit-user-select: none; /* Safari */
+   -ms-user-select: none; /* IE 10 and IE 11 */
+   user-select: none; /* Standard syntax */
+ }
+ 
+ ::-webkit-scrollbar {
+   width: 12px; /* width of the entire scrollbar */
+ }
+ 
+ ::-webkit-scrollbar-track {
+   background: rgba(0, 0, 0, 0); /* color of the tracking area */
+ }
+ 
+ ::-webkit-scrollbar-thumb {
+   background-color: rgba(255, 255, 255, 0.3); /* color of the scroll thumb */
+   border-radius: 20px; /* roundness of the scroll thumb */
+   border: 3px solid transparent; /* creates padding around scroll thumb */
+ }
+ 
+ h4, h5, h6 {
+   margin: 0;
+ }
+ 
+ .nui-element {
+   display: none;
+ }
+ 
+ #container {
+   position: absolute;
+   top: 50%;
+   right: 1%;
+   max-width: 20%;
+   width: 20%;
+   transform: translateY(calc(50% * -1));
+ }
+ 
+ /**
+  * Modal
+  **/
+ #modal {
+   width: 100%;
+   height: 100%;
+   display: none;
+   justify-content: center;
+   align-items: center;
+   overflow: none;
+ }
+ 
+ #modal .actionable {
+   background: rgba(255, 255, 255, 0.1);
+   border-radius: 8px;
+   cursor: pointer;
+   display: inline-flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 24px;
+   width: 40px;
+   height: 40px;
+   border-radius: 8px;
+   margin-right: 20px;
+ }
+ 
+ #modal .modal-content {
+   background-color: rgba(19, 22, 24, 0.9);
+   border-radius: 8px;
+   width: 70%;
+   height: 65%;
+   color: white;
+ }
+ 
+ #modal .modal-content .header {
+   padding: 0 10px;
+   text-align: left;
+   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+   background: rgba(255, 255, 255, 0.2);
+   border-top-left-radius: 8px;
+   border-top-right-radius: 8px;
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+   height: 60px;
+ }
+ 
+ #modal .modal-content .title-container > .title {
+   font-size: 20px;
+ }
+ 
+ #modal .modal-body {
+   width: calc(100% - 60px);
+   height: 100%;
+   overflow-y: auto;
+   padding: 10px;
+   display: inline-block;
+   overflow-x: hidden;
+ }
+ 
+ #modal .modal-page {
+   width: 100%;
+   height: calc(100% - 61px);
+   display: flex;
+   justify-content: space-between;
+   transition: .2s ease all;
+ }
+ 
+ #modal .modal-side {
+   width: 40%;
+   height: calc(100%);
+   display: none;
+   padding: 10px;
+   overflow-y: auto;
+ }
+ 
+ #modal .main-actions {
+   width: 100%;
+   text-align: right;
+   margin-bottom: 10px;
+ }
+ 
+ .modal-side > .header {
+   background-color: rgba(255, 255, 255, 0.1);
+   text-align: left;
+   width: 100%;
+   padding: 10px;
+   font-size: 16px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   overflow-y: auto;
+ }
+ 
+ form {
+   background-color: rgba(255, 255, 255, 0.1);
+   padding: 10px;
+ }
+ 
+ .header div {
+   display: block;
+   width: 100%;
+ }
+ 
+ .action {
+   background: rgba(255, 255, 255, 0.1);
+   border-radius: 8px;
+   cursor: pointer;
+   display: inline-flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 16px;
+   padding: 8px;
+   color: #fff;
+   text-decoration: none;
+ }
+ 
+ table {
+   border-collapse: collapse;
+   margin: 0 0;
+   font-size: 0.9em;
+   font-family: sans-serif;
+   width: 100%;
+   border-top-left-radius: 8px;
+   border-top-right-radius: 8px;
+ }
+ 
+ table thead {
+   border-top-left-radius: 8px;
+   border-top-right-radius: 8px;
+ }
+ 
+ table thead tr {
+   background-color: rgba(255, 255, 255, 0.1);
+   text-align: left;
+   border-top-left-radius: 8px;
+   border-top-right-radius: 8px;
+ }
+ 
+ table th,
+ table td {
+     padding: 12px 15px;
+ }
+ 
+ table tbody tr {
+   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+ }
+ 
+ table tbody tr:last-of-type {
+   border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+ }
+ 
+ .input-action {
+   position: absolute;
+   right: 12px;
+   top: 12px;
+ }
