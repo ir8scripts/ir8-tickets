@@ -29,6 +29,7 @@ IR8.Bridge.Core = IR8.Config.Framework ~= 'none' and IR8.Bridge.GetCoreObject() 
 function IR8.Bridge.GetPlayerName (src)
     if IR8.Config.Framework == 'esx' and IR8.Bridge.Core then
         local xPlayer = IR8.Bridge.Core.GetPlayerFromId(src)
+        if xPlayer == nil then return nil end
         return xPlayer.getName()
     elseif IR8.Config.Framework == 'qb' and IR8.Bridge.Core then
         local Player = IR8.Bridge.Core.Functions.GetPlayer(src)
@@ -42,6 +43,7 @@ end
 function IR8.Bridge.GetPlayerIdentifier (src)
     if IR8.Config.Framework == 'esx' and IR8.Bridge.Core then
         local xPlayer = IR8.Bridge.Core.GetPlayerFromId(src)
+        if xPlayer == nil then return nil end
         return xPlayer.getIdentifier()
     elseif IR8.Config.Framework == 'qb' and IR8.Bridge.Core then
         local Player = IR8.Bridge.Core.Functions.GetPlayer(src)
@@ -58,6 +60,7 @@ function IR8.Bridge.GetPlayerPermission (src)
 
     if IR8.Config.Framework == 'esx' and IR8.Bridge.Core then
         local xPlayer = IR8.Bridge.Core.GetPlayerFromId(src)
+        if xPlayer == nil then return groups end
         local Group = xPlayer.getGroup()
         table.insert(groups, Group)
     elseif IR8.Config.Framework == 'qb' and IR8.Bridge.Core then
