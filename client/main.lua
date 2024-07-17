@@ -111,7 +111,6 @@ RegisterNUICallback('ready', function(_, cb)
   SendNUIMessage({ 
     action = "init", 
     debug = IR8.Config.Debugging,
-    resourceName = GetCurrentResourceName(),
     admin = admin,
     ticketConfiguration = IR8.Config.TicketConfiguration
   })
