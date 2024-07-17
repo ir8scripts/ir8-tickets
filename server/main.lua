@@ -1,5 +1,24 @@
 -------------------------------------------------
 -- 
+-- DISCORD WEBHOOK CONFIGURATION
+-- 
+-------------------------------------------------
+
+-- Send discord notifications when tickets are created / updated
+Discord = {
+
+    -- Only sends webhooks if this is true
+    WebhookEnabled = true,
+
+    -- The webhook url to send the request to
+    WebhookUrl = 'url',
+
+    -- The author name of the webhook
+    AuthorName = 'IR8 Ticket Manager'
+}
+
+-------------------------------------------------
+-- 
 -- COMMANDS
 -- 
 -------------------------------------------------
@@ -71,7 +90,7 @@ lib.callback.register(IR8.Config.ServerCallbackPrefix .. "Ticket_UpdateStatus", 
 
         -- Send discord webhook
         IR8.Utilities.DebugPrint("Sending discord notification for created ticket.")
-        IR8.Utilities.SendDiscordEmbed({
+        SendDiscordEmbed({
             title = "Ticket Status Update",
             message = "A ticket status was updated to " .. data.status .. " by " .. name .. " for Ticket #" .. data.id .. " - " .. ticketData.title
         })
@@ -95,7 +114,7 @@ lib.callback.register(IR8.Config.ServerCallbackPrefix .. "Ticket_CreateReply", f
 
         -- Send discord webhook
         IR8.Utilities.DebugPrint("Sending discord notification for created ticket.")
-        IR8.Utilities.SendDiscordEmbed({
+        SendDiscordEmbed({
             title = "New Ticket Reply",
             message = "A ticket was replied to by " .. name .. " for Ticket #" .. data.ticket_id .. " - " .. ticketData.title
         })
@@ -114,7 +133,7 @@ lib.callback.register(IR8.Config.ServerCallbackPrefix .. "Ticket_Create", functi
 
         -- Send discord webhook
         IR8.Utilities.DebugPrint("Sending discord notification for created ticket.")
-        IR8.Utilities.SendDiscordEmbed({
+        SendDiscordEmbed({
             title = "Ticket Created",
             message = "A ticket was created with title: " .. data.title .. " by " .. name
         })
@@ -122,3 +141,48 @@ lib.callback.register(IR8.Config.ServerCallbackPrefix .. "Ticket_Create", functi
 
     return res
 end)
+
+-----------------------------------------------------------
+-- 
+--                    DISCORD WEBHOOK
+-- 
+-----------------------------------------------------------
+
+function SendDiscordEmbed (options)
+
+    if not Discord.WebhookEnabled then return end
+    if Discord.WebhookUrl == "url" then return end
+
+    if type(options) ~= "table" then
+        return false
+    end
+
+    if not options.title then
+        return false
+    end
+
+    if not options.message then
+        return false
+    end
+
+    local embed = {
+        {
+            ["title"] = "**".. options.title .."**",
+            ["description"] = options.message,
+        }
+    }
+
+    if options.color then
+        embed[1].color = options.color
+    end
+
+    if options.footer then
+        embed[1].footer = {
+            ["text"] = options.footer
+        }
+    end
+    
+    PerformHttpRequest(Discord.WebhookUrl, function(err, text, headers) 
+        print(err)
+    end, 'POST', json.encode({username = Discord.AuthorName, embeds = embed}), { ['Content-Type'] = 'application/json' })
+end

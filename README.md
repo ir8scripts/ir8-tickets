@@ -114,19 +114,6 @@ IR8.Config = {
         TicketsDescription = "View ticket system",
     },
 
-    -- Send discord notifications when blips are created / updated / deleted
-    Discord = {
-
-        -- Only sends webhooks if this is true
-        WebhookEnabled = false,
-
-        -- The webhook url to send the request to
-        WebhookUrl = 'url',
-
-        -- The author name of the webhook
-        AuthorName = 'IR8 Ticket Manager'
-    },
-
     -- Customize NUI Theme
     Theme = {
 
@@ -146,6 +133,10 @@ IR8.Config = {
     }
 }
 ```
+
+### Webhook Configuration
+
+You can set your webhook configuration from server/main.lua at the top of the file.
 
 ### Renaming the Resource
 
