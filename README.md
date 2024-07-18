@@ -15,7 +15,7 @@ Features:
 - Players & Staff members can reply to tickets
 - Players receive notifications (if online) when a reply or status is changed on their tickets.
 
-If you need any support, feel free to reach out to us via our Discord: https://discord.gg/NATz2Yw5a
+If you need any support, feel free to reach out to us via our Discord: https://discord.gg/7NATz2Yw5a
 
 ### Version 1.0.3
 
