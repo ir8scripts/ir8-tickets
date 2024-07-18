@@ -4,12 +4,38 @@
 -- 
 -------------------------------------------------
 PlayerData = {}
+PlayerLoaded = false
 
 -------------------------------------------------
 -- 
 -- EVENTS
 -- 
 -------------------------------------------------
+
+-- Init event on resource start
+function init ()
+  IR8.Utilities.DebugPrint("[Method] Init invoked")
+
+  -- Check for admin privs
+  local admin = lib.callback.await(IR8.Config.ServerCallbackPrefix .. 'HasAdminPermissions', false)
+
+  SendNUIMessage({ 
+    action = "init", 
+    debug = IR8.Config.Debugging,
+    admin = admin,
+    ticketConfiguration = IR8.Config.TicketConfiguration
+  })
+end
+
+-- PlayerLoaded event handler based on framework
+if IR8.Bridge.Client.EventPlayerLoaded then
+  RegisterNetEvent(IR8.Bridge.Client.EventPlayerLoaded)
+  AddEventHandler (IR8.Bridge.Client.EventPlayerLoaded, function()
+    if not PlayerLoaded then
+      init()
+    end
+  end)
+end
 
 -- Show the NUI
 RegisterNetEvent(IR8.Config.ClientCallbackPrefix .. "ShowNUI")
@@ -102,21 +128,6 @@ RegisterNUICallback('create', function(data, cb)
   cb(res)
 end)
 
--- Received when NUI document is ready
-RegisterNUICallback('ready', function(_, cb)
-
-  -- Check for admin privs
-  local admin = lib.callback.await(IR8.Config.ServerCallbackPrefix .. 'HasAdminPermissions', false)
-
-  SendNUIMessage({ 
-    action = "init", 
-    debug = IR8.Config.Debugging,
-    resourceName = GetCurrentResourceName(),
-    admin = admin,
-    ticketConfiguration = IR8.Config.TicketConfiguration
-  })
-end)
-
 -- Teleport request
 RegisterNUICallback('teleport', function(data, cb)
   SetEntityCoords(PlayerPedId(), data.x, data.y, data.z)
@@ -130,7 +141,10 @@ end)
 -------------------------------------------------
 AddEventHandler('onResourceStart', function(resource)
   if resource == GetCurrentResourceName() then
-    -- Any actions needed on resource start, place them here
+    if not PlayerLoaded then
+      PlayerLoaded = true
+      init()
+    end
   end
 end)
 

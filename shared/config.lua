@@ -10,7 +10,8 @@ IR8.Config = {
     Debugging = false,
 
     -- Server framework
-    Framework = "qb", -- "esx" | "qb"
+    -- If set to none, please check `shared/core.lua` for information on how to support core functions.
+    Framework = "qb", -- "esx" | "qb" | "none"
 
     -- Event related vars
     ServerCallbackPrefix = "ir8-tickets:Server", -- Change this if you rename the resource folder

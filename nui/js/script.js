@@ -31,7 +31,7 @@ const IR8 = {
     /**
      * Debugging
      */
-    debug: true,
+    debug: false,
 
     /**
      * Admin privs
@@ -61,7 +61,7 @@ const IR8 = {
         IR8.debugPrint(data);
     
         return $.ajax({
-            url: `https://${IR8.resourceName}/${path}`,
+            url: `https://${GetParentResourceName()}/${path}`,
             type: 'POST',
             dataType: 'json',
             data: JSON.stringify(data)
@@ -96,8 +96,6 @@ const IR8 = {
      * Events to run on document ready.
      */
     readyEvents: () => {
-
-        IR8.nuiRequest('ready');
 
         // Close button in header
         $('.actionable').on('click', function () {
@@ -438,10 +436,6 @@ const IR8 = {
     handlers: {
 
         init: (data) => {
-            if (data.resourceName) {
-                IR8.resourceName = data.resourceName
-                IR8.debugPrint("Setting resourceName to " + IR8.resourceName);
-            }
     
             if (data.debug) {
                 IR8.debug = data.debug

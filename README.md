@@ -15,7 +15,17 @@ Features:
 - Players & Staff members can reply to tickets
 - Players receive notifications (if online) when a reply or status is changed on their tickets.
 
-If you need any support, feel free to reach out to us via our Discord: https://discord.gg/wzEYNCN7pH
+If you need any support, feel free to reach out to us via our Discord: https://discord.gg/NATz2Yw5a
+
+### Version 1.0.3
+
+- Restructured the Bridge table a bit better for frameworks
+- Updated how init works for NUI.
+- Comments for standalone framework setup
+
+### Version 1.0.2
+
+- Fixed issue with debugging in NUI and NUI path if resource is renamed
 
 ### Version 1.0.1
 
