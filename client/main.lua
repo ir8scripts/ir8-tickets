@@ -143,6 +143,7 @@ AddEventHandler('onResourceStart', function(resource)
   if resource == GetCurrentResourceName() then
     if not PlayerLoaded then
       PlayerLoaded = true
+      Wait(500)
       init()
     end
   end

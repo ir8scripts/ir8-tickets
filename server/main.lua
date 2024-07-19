@@ -1,19 +1,21 @@
 -------------------------------------------------
 -- 
--- DISCORD WEBHOOK CONFIGURATION
+-- LOGGIN CONFIGURATION
 -- Thanks to complex from Project Sloth for the 
 -- suggestion to move this config to here.
 -- 
+-- Thanks to simsonas86 for fivemerr support
+--
 -------------------------------------------------
 
 -- Send discord notifications when tickets are created / updated
-Discord = {
+Logging = {
 
-    -- Only sends webhooks if this is true
-    WebhookEnabled = true,
+    -- Only sends webhooks if this isn't empty
+    LoggingService = 'discord', -- 'discord' | 'fivemerr' (discord is not recommended as it is not a logging service, fivemerr is a free alternative)
 
-    -- The webhook url to send the request to
-    WebhookUrl = 'url',
+    -- Discord webhook url or Fivemerr API token
+    LoggingTarget = 'url',
 
     -- The author name of the webhook
     AuthorName = 'IR8 Ticket Manager'
@@ -96,9 +98,10 @@ lib.callback.register(IR8.Config.ServerCallbackPrefix .. "Ticket_UpdateStatus", 
 
         -- Send discord webhook
         IR8.Utilities.DebugPrint("Sending discord notification for created ticket.")
-        SendDiscordEmbed({
+        SendLog({
             title = "Ticket Status Update",
-            message = "A ticket status was updated to " .. data.status .. " by " .. name .. " for Ticket #" .. data.id .. " - " .. ticketData.title
+            message = "A ticket status was updated to " .. data.status .. " by " .. name .. " for Ticket #" .. data.id .. " - " .. ticketData.title,
+            source = src
         })
     end
 
@@ -120,9 +123,10 @@ lib.callback.register(IR8.Config.ServerCallbackPrefix .. "Ticket_CreateReply", f
 
         -- Send discord webhook
         IR8.Utilities.DebugPrint("Sending discord notification for created ticket.")
-        SendDiscordEmbed({
+        SendLog({
             title = "New Ticket Reply",
-            message = "A ticket was replied to by " .. name .. " for Ticket #" .. data.ticket_id .. " - " .. ticketData.title
+            message = "A ticket was replied to by " .. name .. " for Ticket #" .. data.ticket_id .. " - " .. ticketData.title,
+            source = src
         })
     end
 
@@ -139,9 +143,10 @@ lib.callback.register(IR8.Config.ServerCallbackPrefix .. "Ticket_Create", functi
 
         -- Send discord webhook
         IR8.Utilities.DebugPrint("Sending discord notification for created ticket.")
-        SendDiscordEmbed({
+        SendLog({
             title = "Ticket Created",
-            message = "A ticket was created with title: " .. data.title .. " by " .. name
+            message = "A ticket was created with title: " .. data.title .. " by " .. name,
+            source = src
         })
     end
 
@@ -149,15 +154,17 @@ lib.callback.register(IR8.Config.ServerCallbackPrefix .. "Ticket_Create", functi
 end)
 
 -----------------------------------------------------------
--- 
+--
 --                    DISCORD WEBHOOK
--- 
+--
 -----------------------------------------------------------
 
 function SendDiscordEmbed (options)
 
-    if not Discord.WebhookEnabled then return end
-    if Discord.WebhookUrl == "url" then return end
+    if Logging.LoggingTarget == "url" then
+        lib.print.error('Attempted to create a log with discord, but webhook url is not defined!')
+        return
+    end
 
     if type(options) ~= "table" then
         return false
@@ -187,8 +194,40 @@ function SendDiscordEmbed (options)
             ["text"] = options.footer
         }
     end
-    
-    PerformHttpRequest(Discord.WebhookUrl, function(err, text, headers) 
+
+    PerformHttpRequest(Logging.LoggingTarget, function(err, text, headers)
         print(err)
-    end, 'POST', json.encode({username = Discord.AuthorName, embeds = embed}), { ['Content-Type'] = 'application/json' })
+    end, 'POST', json.encode({username = Logging.AuthorName, embeds = embed}), { ['Content-Type'] = 'application/json' })
+end
+
+function SentFivemerrLog(options)
+
+    if Logging.LoggingTarget == "url" then
+        lib.print.error('Attempted to create a log with fivemerr, but API token is not defined!')
+        return
+    end
+
+    local data = {
+        ["level"] = "info",
+        ["message"] = options.title,
+        ["resource"] = tostring(GetCurrentResourceName()),
+        ["metadata"] = {
+            ["server-id"] = tostring(options.source),
+            ["message"] = options.message
+        }
+    }
+
+    PerformHttpRequest('https://api.fivemerr.com/v1/logs', function(err, text, headers)
+        print(err)
+    end, 'POST', json.encode(data), { ['Content-Type'] = 'application/json', ['Authorization'] = tostring(Logging.LoggingTarget) })
+end
+
+function SendLog(options)
+    if Logging.LoggingService == 'discord' then
+        SendDiscordEmbed(options)
+    elseif Logging.LoggingService == 'fivemerr' then
+        SentFivemerrLog(options)
+    else
+        return
+    end
 end

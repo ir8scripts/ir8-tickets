@@ -17,6 +17,9 @@ Features:
 
 If you need any support, feel free to reach out to us via our Discord: https://discord.gg/7NATz2Yw5a
 
+### Version 1.0.4
+- Added support for fivemerr logs (Thanks simsonas86)
+
 ### Version 1.0.3
 
 - Restructured the Bridge table a bit better for frameworks
