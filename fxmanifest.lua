@@ -2,7 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 author 'IR8 Scripts'
 description 'Ticket Manager'
-version '1.0.4'
+version '1.1.0'
 lua54 'yes'
 
 client_script 'client/main.lua'
@@ -15,7 +15,7 @@ server_script {
 shared_script { 
     "@ox_lib/init.lua",
     "shared/config.lua",
-    "shared/core.lua",
+    "shared/bridge.lua",
     "shared/utilities.lua",
     "shared/database.lua"
 }

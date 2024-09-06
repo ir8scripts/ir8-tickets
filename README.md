@@ -17,36 +17,24 @@ Features:
 
 If you need any support, feel free to reach out to us via our Discord: https://discord.gg/7NATz2Yw5a
 
-### Version 1.0.4
-- Added support for fivemerr logs (Thanks simsonas86)
-
-### Version 1.0.3
-
-- Restructured the Bridge table a bit better for frameworks
-- Updated how init works for NUI.
-- Comments for standalone framework setup
-
-### Version 1.0.2
-
-- Fixed issue with debugging in NUI and NUI path if resource is renamed
-
-### Version 1.0.1
-
-- Fixed issue with getting player source with ESX
-
 ### Dependencies
 
 - Supports both ESX and QBCore
 - oxmysql
 - ox_lib
 
-### Database
+### Installation
 
-Run the `__install/database.sql` file in your server's database.
+`NOTE: As of v1.1.0, permissions system has changed to run off of ace permissions in your server.cfg`
 
-### Drop the Resource
+- Run the `__install/database.sql` file in your server's database.
+- Download the main branch and drop the package into your resources folder and remember to `ensure ir8-tickets` after `ox_lib` and `oxmysql`
+- Add the permissions principal to your `server.cfg`:
 
-Download the main branch and drop the package into your resources folder and remember to `ensure ir8-tickets` after `ox_lib` and `oxmysql`
+```
+# Ticket Administration Ace
+add_ace group.admin ticket.admin allow
+```
 
 ### Configuration
 

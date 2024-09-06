@@ -30,12 +30,8 @@ lib.addCommand(IR8.Config.Commands.Tickets, {
     help = IR8.Config.Commands.TicketsDescription,
     params = {}
 }, function(source, args, raw)
-    if type(IR8.Bridge.Server.GetPlayerPermission) == "function" then
-        local hasAdminPermission = IR8.Utilities.HasPermission(IR8.Config.AdminPermissions, IR8.Bridge.Server.GetPlayerPermission(source))
-        TriggerClientEvent(IR8.Config.ClientCallbackPrefix .. "ShowNUI", source, hasAdminPermission)
-    else
-        print("[Error] Unable to call Bridge.Server.GetPlayerPermission")
-    end
+    local hasAdminPermission = IR8.Utilities.HasPermission(source)
+    TriggerClientEvent(IR8.Config.ClientCallbackPrefix .. "ShowNUI", source, hasAdminPermission)
 end)
 
 -------------------------------------------------
@@ -60,7 +56,7 @@ end
 
 -- Return admin privs (bool)
 lib.callback.register(IR8.Config.ServerCallbackPrefix .. "HasAdminPermissions", function (src)
-    return IR8.Utilities.HasPermission(IR8.Config.AdminPermissions, IR8.Bridge.Server.GetPlayerPermission(src))
+    return IR8.Utilities.HasPermission(src)
 end)
 
 -- Load all tickets
@@ -68,7 +64,7 @@ lib.callback.register(IR8.Config.ServerCallbackPrefix .. "Tickets_Load", functio
     IR8.Utilities.DebugPrint('[EVENT] ' .. IR8.Bridge.Server.GetPlayerIdentifier(src) .. ' loaded ticket list data.')
 
     -- Check if user has permissions and get their identifier
-    local hasAdminPermission = IR8.Utilities.HasPermission(IR8.Config.AdminPermissions, IR8.Bridge.Server.GetPlayerPermission(source))
+    local hasAdminPermission = IR8.Utilities.HasPermission(src)
     local identifier = IR8.Bridge.Server.GetPlayerIdentifier(src)
 
     -- Pull tickets based on privelage

@@ -14,8 +14,8 @@ IR8.Config = {
     Framework = "qb", -- "esx" | "qb" | "none"
 
     -- Event related vars
-    ServerCallbackPrefix = "ir8-tickets:Server", -- Change this if you rename the resource folder
-    ClientCallbackPrefix = "ir8-tickets:Client", -- Change this if you rename the resource folder
+    ServerCallbackPrefix = GetCurrentResourceName() .. ":Server",
+    ClientCallbackPrefix = GetCurrentResourceName() .. ":Client",
 
     -- Ticket Configuration Variables
     TicketConfiguration = {
@@ -65,10 +65,7 @@ IR8.Config = {
     },
 
     -- The following groups will have access to ticket administration
-    -- This uses either ESX Groups or QB Core Permissions
-    AdminPermissions = {
-        'admin'
-    },
+    AdminPermissions = { "ticket.admin" },
 
     -- Command information
     Commands = {

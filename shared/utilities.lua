@@ -29,29 +29,22 @@ IR8.Utilities = {
     --
     ---------------------------------------------------------
 
-    HasPermission = function (checkAgainst, permission)
+    HasPermission = function (src)
+        if not src or src == '' then return false end
+        local permissions = IR8.Config.AdminPermissions
+        if not permissions then return false end
 
-        if type(checkAgainst) ~= "table" then return false end
+        if type(permissions) ~= "table" then
+            return IsPlayerAceAllowed(src, permissions)
+        end
 
-        local hasPermission = false
-
-        if type(permission) == "table" then
-            for _, check in pairs(checkAgainst) do
-                for _, perm in pairs(permission) do
-                    if check == perm then
-                        hasPermission = true
-                    end
-                end
-            end
-        else
-            for _, check in pairs(checkAgainst) do
-                if permission == check then
-                    hasPermission = true
-                end
+        for _, permission in pairs(permissions) do
+            if IsPlayerAceAllowed(src, permission) then
+                return true
             end
         end
 
-        return hasPermission
+        return false
     end,
 
     ---------------------------------------------------------

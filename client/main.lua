@@ -35,6 +35,10 @@ if IR8.Bridge.Client.EventPlayerLoaded then
       init()
     end
   end)
+else
+  if not PlayerLoaded then
+    init()
+  end
 end
 
 -- Show the NUI
