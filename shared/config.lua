@@ -64,7 +64,7 @@ IR8.Config = {
         Messages = "ir8_ticket_message"
     },
 
-    -- The following groups will have access to ticket administration
+    -- Those with the following ace permissions will have admin access
     AdminPermissions = { "ticket.admin" },
 
     -- Command information
